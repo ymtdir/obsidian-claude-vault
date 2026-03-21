@@ -1,0 +1,5 @@
+# Personal workspace settings
+.obsidian/workspace.json
+
+# Plugin personal data  
+.obsidian/plugins/*/data.json
