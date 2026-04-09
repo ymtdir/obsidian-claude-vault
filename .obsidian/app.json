@@ -2,7 +2,5 @@
   "newFileLocation": "current",
   "attachmentFolderPath": "99_ASSETS",
   "promptDelete": false,
-  "userIgnoreFilters": [
-    "10_DAILY/"
-  ]
+  "userIgnoreFilters": ["00_INBOX/", "10_DAILY/"]
 }

@@ -1,3 +1,6 @@
+# 00_INBOX: folder tracked, contents ignored
+00_INBOX/*
+
 # 80_SECURE: folder tracked, contents ignored
 80_SECURE/*
 !80_SECURE/.gitkeep
