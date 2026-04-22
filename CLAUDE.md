@@ -40,5 +40,5 @@
 - `/wiki` → [.claude/skills/wiki/SKILL.md](.claude/skills/wiki/SKILL.md)
 - `/inbox` → [.claude/skills/inbox/SKILL.md](.claude/skills/inbox/SKILL.md)
 - `/translate` → [.claude/skills/translate/SKILL.md](.claude/skills/translate/SKILL.md)
-- `/check` → [.claude/commands/check.md](.claude/commands/check.md)
+- `/check` → [.claude/skills/check/SKILL.md](.claude/skills/check/SKILL.md)
 - `ask`（auto-invoke）→ [.claude/skills/ask/SKILL.md](.claude/skills/ask/SKILL.md)
