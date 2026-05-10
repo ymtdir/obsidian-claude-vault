@@ -44,7 +44,7 @@ argument-hint: '[トピック]'
 
 ### 4. `template.md` に沿って執筆
 
-- `.claude/skills/writing-articles/template.md` を読み、その構造で本文を書く
+- `.claude/skills/writing-articles/assets/template.md` を読み、その構造で本文を書く
 - 汎用 Markdown の範囲で書く（投稿先プラットフォーム固有の記法には依存しない）
 - コードブロックは言語指定を忘れない（` ```rust `、` ```ts ` 等）
 - 画像参照は `99_ASSETS/` に置き、相対パスで参照
@@ -62,4 +62,4 @@ argument-hint: '[トピック]'
 ### 6. レポート
 
 - 作成した記事のファイルパス、タイトル、記事の概要を提示する
-- ファクトチェックで `10_WIKI/` を参照したノート、WebSearch で裏取りした一次情報も明示する
+- ファクトチェックで参照した `10_WIKI/` のノートを明示する
