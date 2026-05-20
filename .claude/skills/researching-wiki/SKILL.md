@@ -1,49 +1,49 @@
 ---
 name: researching-wiki
-description: ユーザーが wiki に追加したいと言ったときに、Web検索とClaudeの知識でトピックを調査し、10_WIKI にツェッテルカステン形式の1ノートを作成する。INBOX素材の取り込みには /ingesting-inbox を使う。
-argument-hint: 'トピック名'
+description: When the user says they want to add something to the wiki, research the topic with web search and Claude's knowledge, and create one Zettelkasten-style note in 10_WIKI. Use /ingesting-inbox for ingesting INBOX material.
+argument-hint: 'topic name'
 ---
 
-Web検索とClaudeの知識でトピックを調査し、10_WIKI にツェッテルカステン形式の1ノートを作成する。
+Research a topic with web search and Claude's knowledge, and create one Zettelkasten-style note in 10_WIKI.
 
-引数: $ARGUMENTS（トピック名）
+Argument: $ARGUMENTS (topic name)
 
-## 手順
+## Steps
 
-### 1. 調査・整理する
+### 1. Research and organize
 
-- トピックを補足・整理する
-  1. まず `10_WIKI/` 内を Grep で関連キーワード検索し、既存の知識を把握する
-     - トピックの類義語、関連技術、代替サービスなども検索する
-  2. 不足があれば WebSearch で調査する
-  3. Claude の知識で定義や背景を補完する
-  4. **調査結果に明らかな誤りがあれば訂正する**（技術用語、概念、バージョン情報など）
-- **既存同名ノートの処理**
-  - 手順 1-1 の Grep で **同一トピックの既存ノート** が見つかった場合は、新規作成せずにユーザーに確認する（無断の重複作成はしない）
-  - 確認の選択肢: (1) 既存ノートを更新（追記・訂正）、(2) 別の切り口でサブトピック独立ノートを作成、(3) 別物を扱う場合は命名分離（下記「トピックの曖昧性」を参照）
-- **トピックの曖昧性を確認する**
-  - 調査の結果、トピック名が複数の異なる製品・サービス・概念を指すことが判明した場合は、ユーザーに確認する
-  - 例：「React」→ React.js（ライブラリ）と React Native（フレームワーク）
-  - 例：「Surge」→ Surge（ネットワークツール）と Surge.sh（ホスティングサービス）
-  - 候補が 3 つ以上ある場合も同様に全候補を提示して選ばせる（2 択限定ではない）
-  - **ユーザー確認が取れるまで手順 2（ノート作成）には進まない**
-- 1ノート = 1アイデアの原則に従い、複数トピックが混在している場合は分割を提案する
+- Supplement and organize the topic
+  1. First, Grep within `10_WIKI/` for related keywords to grasp the existing knowledge
+     - Also search for synonyms of the topic, related technologies, and alternative services
+  2. If something is missing, research with WebSearch
+  3. Complement definitions and background with Claude's knowledge
+  4. **If there is a clear error in the research results, correct it** (technical terms, concepts, version info, etc.)
+- **Handling an existing note with the same name**
+  - If the Grep in step 1-1 finds **an existing note on the same topic**, confirm with the user instead of creating a new one (do not create duplicates without permission)
+  - Confirmation options: (1) update the existing note (add/correct), (2) create an independent sub-topic note from a different angle, (3) if it covers something different, separate them by naming (see "Topic ambiguity" below)
+- **Check for topic ambiguity**
+  - If the research reveals that the topic name refers to multiple different products, services, or concepts, confirm with the user
+  - Example: "React" → React.js (library) and React Native (framework)
+  - Example: "Surge" → Surge (network tool) and Surge.sh (hosting service)
+  - The same applies when there are 3 or more candidates: present all candidates and let the user choose (not limited to 2 choices)
+  - **Do not proceed to step 2 (note creation) until user confirmation is obtained**
+- Following the principle of 1 note = 1 idea, if multiple topics are mixed in, propose splitting them
 
-### 2. 10_WIKI にノートを作成する
+### 2. Create a note in 10_WIKI
 
-- ファイル名はトピックを端的に表す名前にする（例: `Rustの所有権.md`）
-  - **既存ノートと名前が重複しそうな場合、区別できる名前にする**
-  - 例：「Surge.sh.md」「Surge（ネットワークツール）.md」
-  - 必要に応じてサービス名や技術カテゴリを括弧で補足する
-- `assets/template.md` の形式に従って作成する
-  - `## イメージで理解する` セクションには、概念を身近なたとえで説明する
-  - **抽象度が高いトピック**（概念・仕組み・理論、例: 所有権、Reconciliation、関数型プログラミング）は積極的に書く
-  - **具体的な製品・サービス・事実記述**中心（例: Surge、Docker Hub）は省略可
-- プロパティ（YAML frontmatter）は使わない
-- ファイル名がタイトルになるので `# 見出し` は不要。本文の見出しは `##` から使い、その下の区分けに `###` を使う
-- 手順 1-1 の Grep 結果を再利用し、ヒットした関連ノートがあれば本文中に `[[wikilink]]` を自然に埋め込む（Grep を再実行しない）
-- 関連ノートへのリンクは末尾にまとめず、文脈の中に配置する
+- Use a filename that concisely expresses the topic (e.g. `Rustの所有権.md`)
+  - **If the name is likely to collide with an existing note, use a distinguishable name**
+  - Example: `Surge.sh.md`, `Surge（ネットワークツール）.md`
+  - Supplement with the service name or technical category in parentheses as needed
+- Create it following the format of `assets/template.md`
+  - In the `## イメージで理解する` section, explain the concept with a familiar analogy
+  - For **highly abstract topics** (concepts, mechanisms, theories; e.g. ownership, Reconciliation, functional programming), write it actively
+  - For ones centered on **concrete products, services, or factual descriptions** (e.g. Surge, Docker Hub), it may be omitted
+- Do not use properties (YAML frontmatter)
+- Since the filename becomes the title, a `# heading` is unnecessary. Start body headings from `##`, and use `###` for sub-divisions under it
+- Reuse the Grep results from step 1-1, and if there are related notes that hit, embed `[[wikilink]]` naturally into the body (do not re-run Grep)
+- Do not collect links to related notes at the end; place them within the context
 
-### 3. 後処理
+### 3. Post-processing
 
-- 作成したノートの内容をユーザーに提示する
+- Present the content of the created note to the user
