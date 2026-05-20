@@ -1,50 +1,50 @@
 ---
 name: ingesting-inbox
-description: 00_INBOX のソース素材を読み込み、10_WIKI にツェッテルカステン原則で複数ノートに分解する。処理後は 90_ARCHIVES に退避。
-argument-hint: '[ファイル名.md]'
+description: Read source material in 00_INBOX and break it into multiple notes in 10_WIKI following Zettelkasten principles. After processing, move the source to 90_ARCHIVES.
+argument-hint: '[filename.md]'
 ---
 
-`00_INBOX/` に投入されたクリップ記事・読書メモなどのソース素材を、1ソース=複数トピックに分解して `10_WIKI/` に取り込む。
+Take clipped articles, reading notes, and other source material dropped into `00_INBOX/`, break each source into multiple topics (1 source = multiple topics), and ingest them into `10_WIKI/`.
 
-## 手順
+## Steps
 
-### 1. 対象ファイルの特定
+### 1. Identify the target file(s)
 
-- 引数でファイル名が指定されていれば `00_INBOX/<ファイル名>` のみ対象
-- 引数がなければ `00_INBOX/` 直下の `.md` を全件列挙し、1件ずつ順に処理
-- 対象が空なら「INBOX は空です」と伝えて終了
+- If a filename is given as an argument, target only `00_INBOX/<filename>`
+- If no argument is given, list all `.md` files directly under `00_INBOX/` and process them one by one in order
+- If there is no target, tell the user the INBOX is empty and finish
 
-### 2. ソースの読み込みと分解
+### 2. Read and decompose the source
 
-- ソースを読み、主要な概念・人物・技術・事例ごとにトピックを洗い出す
-- ソースが英語（または日本語以外）の場合は、ノート名・本文ともすべて日本語に翻訳して取り込む。固有名詞・技術用語・コード識別子は原語のまま残してよい
-- 1ノート=1アイデアの原則に従い、独立して読める粒度に分割する。**粒度目安**: 1 ノート = 「1 つの問い」に答える単位。対概念（共有参照 vs 可変参照など）は原則 1 ノートに統合、独立した概念は別ノート
-- 各候補について `10_WIKI/` を Grep し、**タイトル完全一致** または **本文の主要概念が既存ノートと大部分重なる** 場合を「統合候補」として記録する（ゼロなら全て新規扱い）
-- 統合する場合は既存セクションに溶かし込むのを原則とし、既存構造と合致しない場合のみ `## 追記` セクションを設ける
-- 以下を**1回の承認プロンプト**でユーザーに提示し、承認を得る:
-  - 分解案（予定ノート名の一覧）
-  - 各ノートの扱い（「新規作成」または「既存 `X.md` に追記統合」）
-  - 本文要約は任意（ノート数が多い場合は省略してよい）
-- 複数ファイルを処理する場合は **1 ファイルずつ承認 → ノート作成 → アーカイブ** のループで回す（全体一括ではない）
-- 承認拒否時は修正指示を受け、分解案を組み直して再提示する（再承認のループ）
-- 非対話環境（subagent 実行など）では承認ステップを省略し、判断をレポートに明記したうえで進める
+- Read the source and identify topics for each major concept, person, technology, and example
+- If the source is in English (or any language other than Japanese), translate both the note names and the body into Japanese when ingesting. Proper nouns, technical terms, and code identifiers may be kept in the original language
+- Following the principle of 1 note = 1 idea, split into a granularity that can be read independently. **Granularity guideline**: 1 note = the unit that answers "one question". Paired concepts (e.g. shared reference vs. mutable reference) are in principle merged into 1 note; independent concepts go into separate notes
+- For each candidate, Grep `10_WIKI/` and record it as a "merge candidate" when the **title matches exactly** or **the major concepts of the body largely overlap with an existing note** (if there are none, treat all as new)
+- When merging, as a rule dissolve the content into an existing section; add a `## 追記` section only when it does not fit the existing structure
+- Present the following to the user in **a single approval prompt** and obtain approval:
+  - The decomposition plan (the list of planned note names)
+  - The treatment of each note ("create new" or "merge into existing `X.md` as an addition")
+  - A body summary is optional (it may be omitted when there are many notes)
+- When processing multiple files, run a **per-file loop of approval → note creation → archive** (not all at once)
+- If approval is denied, receive correction instructions, rebuild the decomposition plan, and present it again (re-approval loop)
+- In non-interactive environments (such as subagent execution), skip the approval step, state the decisions clearly in the report, and proceed
 
-### 3. 10_WIKI にノート作成
+### 3. Create notes in 10_WIKI
 
-- `.claude/skills/researching-wiki/assets/template.md` のフォーマットに従う（`## イメージで理解する`・`## まとめ` は省略可。`###` 見出しは `##` の下位区分として使う）
-- ファイル名はトピックを端的に表す名前（半角スペース可、`[[wikilink]]` 表記と同一）。`10_WIKI/` 内で既存ノートと衝突する場合は括弧で補足（例: `Surge（ネットワークツール）.md`）。アーカイブ衝突（手順 4）は別ルール（日付サフィックス）を使う
-- プロパティ（YAML frontmatter）は使わない
-- 見出しは `##` から使う
-- 本文の文脈中に `[[wikilink]]` を自然に埋め込む（末尾一覧にしない）
-- `10_WIKI/` 内を Grep して関連ノートがあれば双方向にリンクを張る。**同バッチで複数ノートを作成した場合、それらノート同士も相互にリンクを張る**
+- Follow the format of `.claude/skills/researching-wiki/assets/template.md` (`## イメージで理解する` and `## まとめ` may be omitted; use `###` headings as a sub-division under `##`)
+- The filename is a name that concisely expresses the topic (half-width spaces allowed; identical to the `[[wikilink]]` notation). When it collides with an existing note in `10_WIKI/`, add a parenthetical note (e.g. `Surge（ネットワークツール）.md`). Archive collisions (step 4) use a different rule (date suffix)
+- Do not use properties (YAML frontmatter)
+- Start headings from `##`
+- Embed `[[wikilink]]` naturally into the context of the body (do not make an end-of-note list)
+- Grep within `10_WIKI/`, and if there are related notes, create bidirectional links. **When multiple notes are created in the same batch, also link those notes to each other**
 
-### 4. 元ファイルのアーカイブ
+### 4. Archive the source file
 
-- 取り込みが完了したら、元の `00_INBOX/<ファイル>` を `90_ARCHIVES/` に移動する
-- 元ファイル名は **原名維持** する（英語記事でもノート作成時に日本語化されるのとは独立に、アーカイブは原名）
-- 同名ファイルが `90_ARCHIVES/` にある場合は、**拡張子の前**に日付サフィックス `-YYYY-MM-DD` を付ける（例: `article.md` → `article-2026-04-22.md`）
-- 日付サフィックス付きでさらに衝突する場合は **連番 `-N`** を追加する（例: `article-2026-04-22-2.md`、`-3`、…）
+- When ingestion is complete, move the original `00_INBOX/<file>` to `90_ARCHIVES/`
+- **Keep the original filename** (the archive keeps the original name, independently of the note being made Japanese at creation time even for English articles)
+- If a file with the same name exists in `90_ARCHIVES/`, add a date suffix `-YYYY-MM-DD` **before the extension** (e.g. `article.md` → `article-2026-04-22.md`)
+- If it still collides even with the date suffix, add a **sequential number `-N`** (e.g. `article-2026-04-22-2.md`, `-3`, ...)
 
-### 5. レポート
+### 5. Report
 
-- 新規作成したノートの一覧、統合したノートの一覧、アーカイブした元ファイルの一覧を提示する
+- Present the list of newly created notes, the list of merged notes, and the list of archived source files
