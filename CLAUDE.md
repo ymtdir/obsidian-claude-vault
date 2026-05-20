@@ -1,45 +1,45 @@
-# Obsidian Vault — Claude Code ルール
+# Obsidian Vault — Claude Code Rules
 
-日本語で応答すること。
+Respond in Japanese.
 
-## Vault 構造
+## Vault structure
 
-| フォルダ           | 役割                                                               | ファイル命名規則         | リンク戦略                               |
-| ------------------ | ------------------------------------------------------------------ | ------------------------ | ---------------------------------------- |
-| `00_INBOX/`        | クリップ記事・読書メモなどソース素材の投げ入れ先。未整理のまま置く | 自由（内容がわかる名前） | 不要                                     |
-| `10_WIKI/`         | 調査・学習ノート。フォルダ分けせずフラットに保存する               | トピックを端的に表す名前 | ノート間を `[[wikilink]]` で積極的に接続 |
-| `20_DAILY/`        | デイリーノート                                                     | `YYYY-MM-DD.md`          | 学び・気づきから `10_WIKI/` へリンク     |
-| `30_DOCUMENTS/`    | 汎用共有ドキュメント。外部出力するためリンク付け不要               | 自由                     | リンクを挿入しない                       |
-| `40_TRANSLATIONS/` | `/translating-articles` で作成する海外記事の翻訳・要約ノート                  | 元記事タイトルの日本語訳 | リンクを挿入しない                       |
-| `50_ARTICLES/`     | `/writing-articles` で書く技術記事。過去記事も蓄積                          | 記事タイトルを端的に表す | リンクを挿入しない                       |
-| `70_PERSONAL/`     | ユーザー周辺のパーソナル情報。git 管理外                           | 用途を表す名前           | 不要                                     |
-| `90_ARCHIVES/`     | `/ingesting-inbox` で取り込み済みのソース素材を退避する場所                  | 元ファイル名そのまま     | 不要                                     |
-| `98_TEMPLATES/`    | Obsidian のテンプレートファイル置き場                              | 用途を表す名前           | 不要                                     |
-| `99_ASSETS/`       | 画像などのアセット                                                 | —                        | —                                        |
+| Folder | Role | Filename convention | Link strategy |
+| --- | --- | --- | --- |
+| `00_INBOX/` | Drop zone for source material such as clipped articles and reading notes. Left unorganized | Free (a name that conveys the content) | Not needed |
+| `10_WIKI/` | Research/learning notes. Stored flat without subfolders | A name that concisely expresses the topic | Actively connect notes with `[[wikilink]]` |
+| `20_DAILY/` | Daily notes | `YYYY-MM-DD.md` | Link from learnings/insights to `10_WIKI/` |
+| `30_DOCUMENTS/` | General-purpose shared documents. No linking needed since they are output externally | Free | Do not insert links |
+| `40_TRANSLATIONS/` | Translation/summary notes of foreign articles created by `/translating-articles` | Japanese translation of the original article title | Do not insert links |
+| `50_ARTICLES/` | Technical articles written with `/writing-articles`. Past articles accumulate too | A name that concisely expresses the article title | Do not insert links |
+| `70_PERSONAL/` | Personal information around the user. Outside git management | A name that expresses the purpose | Not needed |
+| `90_ARCHIVES/` | Place to move source material already ingested by `/ingesting-inbox` | The original filename as is | Not needed |
+| `98_TEMPLATES/` | Storage for Obsidian template files | A name that expresses the purpose | Not needed |
+| `99_ASSETS/` | Assets such as images | — | — |
 
-## ツェッテルカステン原則
+## Zettelkasten principles
 
-- **1ノート = 1アイデア**: `10_WIKI/` の各ノートは単一のトピックを扱う
-- **リンクで接続**: ノート間は `[[wikilink]]` で接続する。タグやフォルダではなくリンクが構造を作る
-- **自律性**: 各ノートは単独で読んで意味が通じるように書く
+- **1 note = 1 idea**: each note in `10_WIKI/` covers a single topic
+- **Connect with links**: connect notes with `[[wikilink]]`. Links — not tags or folders — create the structure
+- **Autonomy**: write each note so it makes sense when read on its own
 
-## ノート作成ルール
+## Note creation rules
 
-- Obsidian のプロパティ（YAML frontmatter）は使わない
-- ファイル名がタイトルになるので `10_WIKI/` では `# 見出し` は不要。見出しは `##` から使い、その下の区分けに `###` を使う
-- 関連ノートへの `[[wikilink]]` は本文の文脈中に自然に埋め込む（末尾の一覧にまとめない）
+- Do not use Obsidian properties (YAML frontmatter)
+- Since the filename becomes the title, a `# heading` is unnecessary in `10_WIKI/`. Start headings from `##`, and use `###` for sub-divisions under it
+- Embed `[[wikilink]]`s to related notes naturally into the context of the body (do not collect them in an end-of-note list)
 
-## 個人情報の参照
+## Referencing personal information
 
-ユーザーへの回答は `70_PERSONAL/` 配下のパーソナル情報（ユーザー自身・人間関係など）を踏まえて行う。質問・相談・雑談いずれでも該当しそうな話題が出たら Grep / Read で該当ノートを確認すること。人生相談や意思決定の文脈では積極的に参照する。`70_PERSONAL/` は git 管理外なので、記載内容をコミットや公開出力に混ぜないこと。
+Base answers to the user on the personal information under `70_PERSONAL/` (the user themselves, their relationships, etc.). Whenever a potentially relevant topic comes up — in a question, a consultation, or small talk — check the corresponding note with Grep / Read. Reference it actively in the context of life advice and decision-making. Since `70_PERSONAL/` is outside git management, do not mix its contents into commits or public output.
 
-## 運用コマンド／スキル
+## Operational commands / skills
 
-運用手順の詳細は各スキル側に寄せる。このファイルは vault の "地図" のみを定義する。
+Keep the details of operational procedures within each skill. This file defines only the "map" of the vault.
 
 - `/researching-wiki` → [.claude/skills/researching-wiki/SKILL.md](.claude/skills/researching-wiki/SKILL.md)
 - `/ingesting-inbox` → [.claude/skills/ingesting-inbox/SKILL.md](.claude/skills/ingesting-inbox/SKILL.md)
 - `/translating-articles` → [.claude/skills/translating-articles/SKILL.md](.claude/skills/translating-articles/SKILL.md)
 - `/writing-articles` → [.claude/skills/writing-articles/SKILL.md](.claude/skills/writing-articles/SKILL.md)
 - `/relinking-wiki` → [.claude/skills/relinking-wiki/SKILL.md](.claude/skills/relinking-wiki/SKILL.md)
-- `asking-wiki`（auto-invoke）→ [.claude/skills/asking-wiki/SKILL.md](.claude/skills/asking-wiki/SKILL.md)
+- `asking-wiki` (auto-invoke) → [.claude/skills/asking-wiki/SKILL.md](.claude/skills/asking-wiki/SKILL.md)
